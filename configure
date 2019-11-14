@@ -1,0 +1,58 @@
+#!/usr/bin/python3
+
+# configuration script for setting up ghdl environment
+# todo: add vhdl files to qsf file and copy into new directory
+
+import os
+import sys
+import datetime
+
+template_params = {}
+
+def red(string):
+  return "\033[91m{}\033[00m".format(string)
+
+def green(string):
+  return "\033[92m{}\033[00m".format(string)
+
+def yellow(string):
+  return "\033[93m{}\033[00m".format(string)
+
+def parse_template(template_file, out_file):
+  lines = []
+  with open(template_file, "rt") as fin:
+    for line in fin.readlines():
+      for param, content in template_params.items():
+        line = line.replace(param, content)
+      lines.append(line)
+  with open(out_file, "wt") as fout:
+    fout.writelines(lines)
+
+
+def main():
+  project = input("enter project name: ")
+  
+  template_params["[author]"]       = input("enter your name: ")
+  template_params["[description]"]  = input("enter a project description: ")
+  template_params["[project]"]      = project
+  template_params["[date]"]         = datetime.date.today().strftime("%d.%m.%Y")
+  template_params["[all_entities]"] = "{} tb_{}".format(project, project)
+  template_params["[top_entity]"]   = "tb_{}".format(project)
+
+  template_files = [
+      ["/Makefile.template", "/Makefile"],
+      ["/template.vhd", "/{}.vhd".format(project)],
+      ["/tb_template.vhd", "/tb_{}.vhd".format(project)]
+    ]
+  
+  os.mkdir(project)
+  os.chdir(project)
+  
+  for elem in template_files:
+    parse_template(os.path.dirname(os.path.realpath(__file__)) + elem[0], os.getcwd() + elem[1])
+
+  print("project {} successfully generated".format(green(project)))
+
+
+if __name__ == "__main__":
+  main()
