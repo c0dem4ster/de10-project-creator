@@ -1,12 +1,13 @@
 ------------------------------------------------------------------------------------
---Project : DIC 3BHEL 
---Author  : Gräbner
---Date    : 15/05/2018
---File    : DE10_Lite_const_pkg.vhd
---Design  : Terasic DE10 Board
+-- Project : [project]
+-- Author  : [author]
+-- Date    : [date]
+-- File    : DE10_Lite_const_pkg.vhd
+-- Design  : Terasic DE10 Board
 ------------------------------------------------------------------------------------
 -- Description: Type- and Constant Definitions for Terasic DE10 Board
 ------------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.ALL;
 use ieee.numeric_std.ALL;

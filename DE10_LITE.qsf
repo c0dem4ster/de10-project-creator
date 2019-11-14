@@ -5,9 +5,9 @@
 set_global_assignment -name FAMILY "MAX 10 FPGA"
 set_global_assignment -name DEVICE 10M50DAF484C7G
 set_global_assignment -name TOP_LEVEL_ENTITY "DE10_LITE"
-set_global_assignment -name ORIGINAL_QUARTUS_VERSION 15.1.0
-set_global_assignment -name LAST_QUARTUS_VERSION "19.1.0 Lite Edition"
-set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:45:13 JUNE 17,2016"
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION [qversion]
+set_global_assignment -name LAST_QUARTUS_VERSION "[qversion] Lite Edition"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "[time] [date]"
 set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 set_global_assignment -name DEVICE_FILTER_PIN_COUNT 484
 set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 6
@@ -15,13 +15,7 @@ set_global_assignment -name SDC_FILE DE10_LITE.sdc
 #============================================================
 # VHDL-Files
 #============================================================
-set_global_assignment -name VHDL_FILE bin2bcd.vhd
-set_global_assignment -name VHDL_FILE bin2bcd_n.vhd
-set_global_assignment -name VHDL_FILE clk_ena.vhd
-set_global_assignment -name VHDL_FILE DE10_LITE_const_pkg.vhd
-set_global_assignment -name VHDL_FILE debounce.vhd
-set_global_assignment -name VHDL_FILE pulse_gen.vhd
-set_global_assignment -name VHDL_FILE DE10_LITE.vhd
+[qsf_files]
 #============================================================
 # CLOCK
 #============================================================

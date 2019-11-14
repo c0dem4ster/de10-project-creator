@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 
-# configuration script for setting up ghdl environment
-# todo: add vhdl files to qsf file and copy into new directory
+# configuration script for setting up ghdl & quartus environment
 
 import os
 import sys
 import datetime
+import subprocess
 
 template_params = {}
 
@@ -30,26 +30,44 @@ def parse_template(template_file, out_file):
 
 
 def main():
+  template_files = [
+    "/Makefile",
+    "/TB_DE10_LITE.vhd",
+    "/DE10_LITE_const_pkg.vhd",
+    "/DE10_LITE.qpf",
+    "/DE10_LITE.qsf",
+    "/DE10_LITE.sdc",
+    "/DE10_LITE.vhd"
+  ]
+  
+  
   project = input("enter project name: ")
   
   template_params["[author]"]       = input("enter your name: ")
   template_params["[description]"]  = input("enter a project description: ")
   template_params["[project]"]      = project
   template_params["[date]"]         = datetime.date.today().strftime("%d.%m.%Y")
-  template_params["[all_entities]"] = "{} tb_{}".format(project, project)
-  template_params["[top_entity]"]   = "tb_{}".format(project)
-
-  template_files = [
-      ["/Makefile.template", "/Makefile"],
-      ["/template.vhd", "/{}.vhd".format(project)],
-      ["/tb_template.vhd", "/tb_{}.vhd".format(project)]
-    ]
+  template_params["[time]"]         = datetime.datetime.now().strftime("%H:%M:%S")
+  template_params["[all_entities]"] = "DE10_LITE_const_pkg DE10_LITE TB_DE10_LITE"
+  template_params["[top_entity]"]   = "TB_DE10_LITE"
+  template_params["[qversion]"]     = "19.1.0"
+  template_params["[qsf_files]"]    = "\n".join([
+    "set_global_assignment -name VHDL_FILE {}".format(name)
+    for name in ["DE10_LITE_const_pkg.vhd", "DE10_LITE.vhd"]
+  ])
   
+  # create project dir
   os.mkdir(project)
   os.chdir(project)
   
+  # parse template files
   for elem in template_files:
-    parse_template(os.path.dirname(os.path.realpath(__file__)) + elem[0], os.getcwd() + elem[1])
+    parse_template(os.path.dirname(os.path.realpath(__file__)) + elem, os.getcwd() + elem)
+
+  # initialize git repository
+  subprocess.run(['git', 'init'])
+  subprocess.run(['git', 'add'] + [name[1:] for name in template_files])
+  subprocess.run(['git', 'commit', '-m \'initial commit\''])
 
   print("project {} successfully generated".format(green(project)))
 
