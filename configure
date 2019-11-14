@@ -40,11 +40,11 @@ def main():
     "/DE10_LITE.vhd"
   ]
   
-  
-  project = input("enter project name: ")
-  
-  template_params["[author]"]       = input("enter your name: ")
-  template_params["[description]"]  = input("enter a project description: ")
+  print(yellow("enter project information:"))
+
+  project                           = input("project name:        ")
+  template_params["[author]"]       = input("your name:           ")
+  template_params["[description]"]  = input("project description: ")
   template_params["[project]"]      = project
   template_params["[date]"]         = datetime.date.today().strftime("%d.%m.%Y")
   template_params["[time]"]         = datetime.datetime.now().strftime("%H:%M:%S")
@@ -56,6 +56,9 @@ def main():
     for name in ["DE10_LITE_const_pkg.vhd", "DE10_LITE.vhd"]
   ])
   
+
+  print(yellow("\ncreate project:"))
+
   # create project dir
   os.mkdir(project)
   os.chdir(project)
@@ -69,7 +72,7 @@ def main():
   subprocess.run(['git', 'add'] + [name[1:] for name in template_files])
   subprocess.run(['git', 'commit', '-m \'initial commit\''])
 
-  print("project {} successfully generated".format(green(project)))
+  print("\nproject {} successfully generated".format(green(project)))
 
 
 if __name__ == "__main__":
