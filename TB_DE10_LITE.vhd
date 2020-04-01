@@ -3,9 +3,9 @@
 -- Author  : [author]
 -- Date    : [date]
 -- File    : TB_DE10_LITE.vhd
--- Design  : Terasic DE10 Board
+-- Design  : TB Terasic DE10 Board
 ------------------------------------------------------------------------------------
--- Description: [description]
+-- Description: test [description]
 ------------------------------------------------------------------------------------
 
 library ieee;
